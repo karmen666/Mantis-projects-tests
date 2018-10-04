@@ -32,6 +32,7 @@ namespace MantisTests
             logIn_LogOut_Helper = new LogInHelper(this);
             navigator = new NavigationHelper(this, baseURL);
             projectHelper = new ProjectsHelper(this);
+            API = new APIHelper(this);
         }
 
         ~ApplicationManager()
@@ -92,5 +93,7 @@ namespace MantisTests
                 return projectHelper;
             }
         }
+
+        public APIHelper API { get; private set; }
     }
 }

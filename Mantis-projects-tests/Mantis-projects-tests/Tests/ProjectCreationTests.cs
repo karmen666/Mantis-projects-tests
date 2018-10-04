@@ -27,11 +27,13 @@ namespace MantisTests
         [Test, TestCaseSource("RandomProjectDataProvider")]
         public void ProjectCreationTest(ProjectsData project)
         {
-            List<ProjectsData> oldProjects = app.Projects.GetProjectsList();
+            AccountData login = new AccountData("administrator", "root");
+
+            List<ProjectsData> oldProjects = app.API.GetProjectsList(login);
 
             app.Projects.Create(project);
 
-            List<ProjectsData> newProjects = app.Projects.GetProjectsList();
+            List<ProjectsData> newProjects = app.API.GetProjectsList(login);
             oldProjects.Add(project);
             oldProjects.Sort();
             newProjects.Sort();

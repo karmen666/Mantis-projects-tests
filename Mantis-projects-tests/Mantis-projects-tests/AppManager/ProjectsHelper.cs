@@ -100,7 +100,8 @@ namespace MantisTests
 
             if (GetProjectsCount() == 0)
             {
-               Create(new ProjectsData("Orange", "Tree"));
+                manager.API.CreateNewProject(new AccountData("administrator", "root"), 
+                        new ProjectsData("Orange", "Tree"));
             }
         }
 
@@ -118,9 +119,18 @@ namespace MantisTests
                 foreach (IWebElement element in elements)
                 {
                     IList<IWebElement> cells = element.FindElements(By.TagName("td"));
-                    string name = cells[0].FindElement(By.TagName("a")).Text;
+                    IWebElement linkElement = cells[0].FindElement(By.TagName("a"));
+                    string name = linkElement.Text;
                     string desc = cells[4].Text;
-                    projectsCache.Add(new ProjectsData(name, desc));
+
+                    string str = "project_id=";
+                    string linkText = linkElement.GetAttribute("href");
+                    string projectID = linkText.Substring(linkText.IndexOf(str) + str.Length);
+
+                    projectsCache.Add(new ProjectsData(name, desc)
+                    {
+                        Id = projectID
+                    });
                 }
             }
 
